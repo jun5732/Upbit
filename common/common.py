@@ -76,16 +76,17 @@ def findListTarget():
     else:
         return None
 
-# 주문된 내역 조회
+# 주문된 내역 조회하여 
 def get_Totalbalance():
     balances = upbit.get_balances()
     arbalances = []
     for b in balances:
         if b['currency'] != "KRW":
             #print(b)
-            if b['balance'] is not None :#and float(b['balance']) > 0:
+            if b['balance'] is not None and float(b['balance']) > 0:
                 bKrw = b['unit_currency'] + "-" +  b['currency']
                 hopePrice = pyupbit.get_tick_size(float(b['avg_buy_price']) + float(b['avg_buy_price']) * 0.01 * iHopePer)
+                upbit.sell_limit_order(bKrw, hopePrice, b['balance'])
                 arbalances.append([bKrw ,hopePrice,float(b['balance'])])
     return arbalances
 
@@ -96,7 +97,7 @@ def get_Selbalance(arBalance):
         for order in arOrder:
             if 'ask' == order['side']:
                 if float(balance[1]) != float(order['price']):
-                    print(order['ask'])
+                    upbit.cancel_order(order['uuid'])
 
 # 해당 코드의 목표가
 def get_TarketPrice(target):
@@ -109,7 +110,7 @@ def get_TarketPrice(target):
 #print(get_Totalbalance())
 
 arTotalbalance = get_Totalbalance()
-get_Selbalance(arTotalbalance)
+#get_Selbalance(arTotalbalance)
 # tk = upbit.get_order(bKrw)
 
 # ret = upbit.sell_limit_order(bKrw, hopePrice, b['balance'])
