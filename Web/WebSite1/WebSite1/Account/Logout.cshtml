@@ -1,0 +1,17 @@
+﻿@{
+    WebSecurity.RequireAuthenticatedUser();
+
+    if (IsPost) {
+        //사용자가 제출한 요청 확인
+        AntiForgery.Validate();
+
+        // 현재 사용자 컨텍스트에서 로그아웃
+        WebSecurity.Logout();
+
+        // 반환 URL 또는 홈 페이지로 리디렉션
+        var returnUrl = Request.QueryString["ReturnUrl"];
+        Context.RedirectLocal(returnUrl);
+    } else {
+        Response.Redirect("~/");
+    }
+}

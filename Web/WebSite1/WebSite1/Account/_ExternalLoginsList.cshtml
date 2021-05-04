@@ -1,0 +1,21 @@
+﻿@if (OAuthWebSecurity.RegisteredClientData.Count == 0) {
+    <div class="message-info">
+        <p>
+            구성된 외부 인증 서비스가 없습니다. 외부 서비스를 통한 로그인을 지원하도록 이 ASP.NET 응용 프로그램을 설정하는 방법에 대한 자세한 내용은
+            <a href="https://go.microsoft.com/fwlink/?LinkId=226949">이 문서</a>를 참조하세요.
+        </p>
+    </div>
+} else {
+    <form method="post">
+    @AntiForgery.GetHtml()
+    <fieldset id="socialLoginList">
+        <legend>다른 서비스를 사용하여 로그인</legend>
+        <p>
+            @foreach (var client in OAuthWebSecurity.RegisteredClientData) {
+                <button type="submit" name="provider" value="@client.AuthenticationClient.ProviderName"
+                        title="@client.DisplayName 계정을 사용하여 로그인">@client.DisplayName</button>
+            }
+        </p>
+    </fieldset>
+    </form>
+}

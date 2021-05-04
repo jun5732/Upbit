@@ -1,0 +1,25 @@
+﻿@{
+    // 레이아웃 페이지 및 페이지 제목 설정
+    Layout = "~/_SiteLayout.cshtml";
+    Page.Title = "등록해 주셔서 감사합니다.";
+}
+
+@if (!WebSecurity.IsAuthenticated) {
+    <hgroup class="title">
+        <h1>@Page.Title.</h1>
+        <h2>아직 완료되지 않았습니다.</h2>
+    </hgroup>
+
+    <p>
+       귀하의 계정을 활성화하는 방법에 대한 지침이 포함된 전자 메일이 귀하에게 발송되었습니다.
+    </p>
+} else {
+    <hgroup class="title">
+        <h1>@Page.Title.</h1>
+        <h2>모두 완료되었습니다.</h2>
+    </hgroup>
+
+    <p>
+        계정이 이미 확인되었습니다. 계속하셔도 좋습니다.
+    </p>
+}

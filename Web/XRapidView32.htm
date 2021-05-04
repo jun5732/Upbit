@@ -1,0 +1,342 @@
+<HTML>
+<HEAD>
+<TITLE>RapidView R7</TITLE>
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FileNew>
+<!--
+//	XRapidView.CloseImage();
+	//XRapidView.SetEntityColorIdx("9AA", 2);			//3번째 파라미터가 없으면 색상 설정 후 화면도 같이 갱신
+
+	// 엔티티 색상 설정 후 한번에 화면 갱신 처리시에 참고 (9AF 부터 색상 설정 후 9B2 처리시 기존 설정된 색상도 모두 업데이트)
+	//XRapidView.SetEntityColorIdx("9AF", 2, false);	//3번째 파라미터가 false이면 색상만 설정 후 화면 갱신 안함
+	//XRapidView.SetEntityColorIdx("9B1", 1, false);
+	//XRapidView.SetEntityColorIdx("9B2", 3, true);		//3번째 파라미터가 true이면 색상 설정 후 화면도 같이 갱신
+	//XRapidView.RedrawEntityLayer("9B1");				//파라미터에 해당하는 엔티티 레이어를 갱신 (동일 레이어 엔티티들이 갱신됨)
+
+	// 스냅샷 저장 함수 추가 (OpenGL 용도)
+	// 전달 파라미터 : 저장파일경로, 이미지 Width, 이미지 Height
+	//XRapidView.SaveThumbOpenGL("D:\\SavePreview.jpg", 300, 300);
+
+	//다중블럭내에 텍스트 줌 참고
+	//alert(XRapidView.dumpText());
+	//alert(XRapidView.ZoomText(0, 0));
+	//alert(XRapidView.ZoomText("0", 1));
+	//alert(XRapidView.ZoomText("0", 2));
+
+	// Layer
+	//alert(XRapidView.dumpText());
+	//alert(XRapidView.LayerName("0"));
+	//alert(XRapidView.TextObjectCount("0"));
+	//alert(XRapidView.TextObject("0", 0));
+
+	//alert(XRapidView.GetPageCount());
+
+	//alert(XRapidView.GetXRapidViewVersion());
+
+//	XRapidView.OpenImage("D:\\test\\pid_test.dwg");
+//	XRapidView.OpenImage("D:\\test\\롯데대산\\165473-1_markuptest.dwg");
+
+
+
+/*	// MemoryLoad Test
+	XRapidView.MemoryLoad = 1;
+	XRapidView.FileServerType = 1;		// enum FILESERVERTYPE { SFTP = 0, HTTP = 1, HTTPS = 2 };
+//	XRapidView.SFtpURL = "192.168.10.10";
+//	XRapidView.SFtpURL = "192.168.10.26";
+	XRapidView.SFtpURL = "192.168.10.13";
+//	XRapidView.SFtpURL = "192.168.10.5";
+//	XRapidView.SFtpURL = "edmsin";
+//	XRapidView.SFtpPort = 4000;
+	XRapidView.SFtpPort = 8080;
+//	XRapidView.SFtpPort = 8443;
+	XRapidView.SFtpID = "ftpuser";
+//	XRapidView.SFtpPassword = "open2950";
+	XRapidView.SFtpPassword = "ftpuser";
+	XRapidView.SFtpSubURL = "/edms/interfaces/downloadfile.action";
+	XRapidView.ShowMemoryLoadProgressbar = true;
+//	XRapidView.SFtpDwgServerPath = "test.dwg";
+//	XRapidView.SFtpDwgServerPath = "hyundai\\A-0251.dwg";
+//	XRapidView.SFtpDwgServerPath = "롯데대산\\165473-1.dwg";
+//	XRapidView.SFtpDwgServerPath = "http://192.168.10.10/롯데대산/165473-1.dwg";
+//	XRapidView.SFtpDwgServerPath = "\\home\\test\\A-0001";
+//	XRapidView.SFtpDwgServerPath = "/home/data/DISK12812/200016";
+//	XRapidView.SFtpDwgServerPath = "/home/data/DISK12836/200361";
+//	XRapidView.SFtpDwgServerPath = "/home/data/DISK200820/201257";	// 현대차
+//	XRapidView.SFtpDwgServerPath = "/home/data/DISK12836/200351";	// 한화
+	XRapidView.SFtpDwgServerPath = "/home/data/DISK200800/201261";	// 현대차(장웅희)
+//	XRapidView.SFtpImgServerPath = "/home/data/DISK200820/201281";	// 현대차
+//	XRapidView.SFtpImgServerPath = "/home/data/DISK200800/201262";	// 현대차(장웅희)
+//	XRapidView.SFtpImgServerPath = "combine__page.tif";
+//	XRapidView.SFtpImgServerPath = "롯데대산\\165473-1.tif";
+//	XRapidView.SFtpImgServerPath = "http://192.168.10.10/롯데대산/165473-1.tif";
+//	XRapidView.SFtpImgServerPath = "165473-1.tif";
+//	XRapidView.SFtpImgServerPath = "http://192.168.10.10/롯데대산\\3-2-MULTI-TIF(102장).tif";
+	XRapidView.SFtpFileFormat = 2;		// enum FILE_FORMAT { NOFILTER = 0, IMAGEGEAR = 1, DWGDIRECT = 2, COMBINED = 3, PREVIEW = 4 };
+//	XRapidView.SFtpFileFormat = 3;		// enum FILE_FORMAT { NOFILTER = 0, IMAGEGEAR = 1, DWGDIRECT = 2, COMBINED = 3, PREVIEW = 4 };
+//	XRapidView.SFtpDwgServerPath = "/home/data/DISK12842/200638";	// 한화
+//	XRapidView.SFtpImgServerPath = "/home/data/DISK12842/123";		// 한화
+//	XRapidView.SFtpMkuServerPath = "/home/data/DISK12844/200854";	// 한화
+//	XRapidView.SFtpMkuServerPath = "롯데대산\\165473-1.mku";
+//	XRapidView.SFtpMkuServerPath = "http://192.168.10.10/롯데대산/165473-1.mku";
+//	XRapidView.SFtpMkuServerPath = "/home/data/DISK12844/200739";
+//	XRapidView.SFtpMkuServerPath = "/home/data/DISK12844/201015";	// 한화
+	XRapidView.OpenImage();
+//	XRapidView.CompareDwg("D:\\test\\pid_test-2.dwg", "D:\\test\\pid_test-1.dwg");
+//	XRapidView.CompareDwg("/home/data/DISK12812/200016", "/home/data/DISK12812/200016");
+//	XRapidView.CompareDwg("/home/data/DISK12833/200798", "/home/data/DISK12832/200797");
+//	XRapidView.CompareDwg("D:\\test\\pid_test-2.dwg", "/home/data/DISK12832/200797");
+//	XRapidView.CompareDwg("/home/data/DISK12833/200798", "D:\\test\\pid_test-1.dwg");
+*/
+/*	// MemoryLoad Test(DirectBuffer)
+	XRapidView.MemoryLoad = 1;
+	XRapidView.SFtpFileFormat = 3;		// enum FILE_FORMAT { NOFILTER = 0, IMAGEGEAR = 1, DWGDIRECT = 2, COMBINED = 3, PREVIEW = 4 };
+	XRapidView.SetDwgBuffer(0, 0);
+	XRapidView.SetImageBuffer(0, 0);
+	XRapidView.SetMarkupBuffer(0, 0);
+	XRapidView.OpenImage();
+*/
+/*	// MemoryLoad Compare Test(DirectBuffer)
+	XRapidView.MemoryLoad = 1;
+	XRapidView.SFtpFileFormat = 2;		// enum FILE_FORMAT { NOFILTER = 0, IMAGEGEAR = 1, DWGDIRECT = 2, COMBINED = 3, PREVIEW = 4 };
+//	XRapidView.SetDwgBuffer(0, 0);
+//	XRapidView.SetCompareDwgBuffer(0, 0);
+//	XRapidView.CompareDwg("", "");
+//	XRapidView.CompareDwg("", "d:\\test\\pid_test-2.dwg");
+	XRapidView.CompareDwg("d:\\test\\pid_test-1.dwg", "d:\\test\\pid_test-2.dwg");
+*/
+//	alert(XRapidView.ExtractTextRelatedInfo());
+//	alert(XRapidView.ExtractTextRelatedInfo("EV2", "2", "admin", 12345));
+
+//	XRapidView.SavePreview("D:\\test\\pid_test.jpg", 3840, 2160);
+//	XRapidView.SavePreview2("D:\\test\\pid_test.jpg", 800, 600);
+//	XRapidView.SaveThumbOpenGL("D:\\test\\pid_test.jpg", 1920, 1400);
+
+//	XRapidView.HttpDownloadFile("192.168.10.26", 8080, "/edms/interfaces/downloadfile.action", "/home/data/DISK12812/200016", "D:\\test\\httpdown.dwg");
+//	XRapidView.HttpDownloadFile("192.168.10.26", 8080, "/edms/interfaces/downloadfile.action", "/home/data/DISK200820/201257", "D:\\test\\httpdown.dwg");
+//	XRapidView.HttpUploadFile("192.168.10.26", 8080, "/edms/interfaces/uploadfile.action", "D:\\test\\pid_test.bmp", "/home/test", "200821");
+
+//	XRapidView.ZoomEntity("2DE3", 5);
+
+//	XRapidView.SavePDF("doPDF 10");
+//	XRapidView.SavePDF("Microsoft Print to PDF");
+
+//	XRapidView.WorkingFolderPath = "c:\\OPenminds\\";
+
+//	XRapidView.DeviceModule = 0;	// WInGDI = 0, OpenGL = 1
+
+//	alert(XRapidView.ExtractFontList());
+//	alert(XRapidView.ExtractFontList("||"));
+//-->
+	XRapidView.FileServerType = 0;		// enum FILESERVERTYPE { SFTP = 0, HTTP = 1, HTTPS = 2 };
+	XRapidView.SFtpURL = "192.168.10.10"
+	XRapidView.SFtpID = "ftpuser";
+	XRapidView.SFtpPassword = "ftpuser";
+	XRapidView.SFtpSubURL = "/edms/interfaces/downloadfile.action";
+XRapidView.SFtpPort = 4000
+	XRapidView.MemoryLoad = 1
+	XRapidView.SFtpFileFormat = 1
+	XRapidView.SFtpDwgServerPath = ""
+XRapidView.SFtpImgServerPath = "/home/data/DISK12844/102025"
+	XRapidView.Open();
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FileOpen>
+<!--
+	XRapidView.Open();
+	/*
+XRapidView.PrintSetup()
+	XRapidView.FileServerType = 0;		// enum FILESERVERTYPE { SFTP = 0, HTTP = 1, HTTPS = 2 };
+	XRapidView.SFtpURL = "192.168.10.10"
+	XRapidView.SFtpID = "ftpuser";
+	XRapidView.SFtpPassword = "ftpuser";
+	XRapidView.SFtpSubURL = "/edms/interfaces/downloadfile.action";
+XRapidView.SFtpPort = 4000
+	XRapidView.MemoryLoad = 1
+	XRapidView.SFtpFileFormat = 1
+	XRapidView.SFtpDwgServerPath = ""
+XRapidView.SFtpImgServerPath = "/home/data/DISK12844/102025"
+	XRapidView.Open();
+                XRapidView.PrintOut();
+*/
+//	XRapidView.OpenImage("D:\\test\\pid_test.dwg");
+//	XRapidView.OpenImage("D:\\test\\2021.01.22_OpenGL에서 Font 및 hatch 로고가 깨지는 도면\\19690-71-0057 SHT.004.dwg");
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FileOpened(strFilePath)>
+<!--
+	//alert(strFilePath+" open complete");
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FilePrint>
+<!--
+	XRapidView.PrintOut();
+
+//	alert(XRapidView.ExtractTextRelatedInfo("EV2", "2", "admin", 12345));
+//	XRapidView.ZoomTextEx("11E");
+//	XRapidView.ZoomEntity("2DE3", 5);
+//	XRapidView.ZoomEntity("8C", 5);
+//	XRapidView.ZoomEntity("75", 5);
+//	XRapidView.ZoomRect(10, 1000, 1200, 0);
+//	XRapidView.RemoveAllMarkup();
+//	alert(XRapidView.FileName);
+//	XRapidView.SaveMarkup("D:\\test\\test.mku");
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FilePrintPreview>
+<!--
+	XRapidView.PrintPreview();
+
+//	XRapidView.ZoomTextEx("11E");
+//	XRapidView.ZoomTextEx("N2742");
+//	XRapidView.ZoomEntity("5A43", 5);
+//	XRapidView.MarkupFileName = "D:\\test\\롯데대산\\165473-1.mku";
+//	XRapidView.MarkupFileName = "D:\\test\\pid_test-1.mku";
+//	XRapidView.SFtpMkuServerPath = "/home/data/DISK12844/201015";	// 한화
+//	XRapidView.SFtpMkuServerPath = "/home/data/DISK12844/200854";	// 한화
+//	XRapidView.OpenMarkup();
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FilePrintSetup>
+<!--
+	XRapidView.PrintSetup();
+
+//	XRapidView.ZoomTextEx("134");
+//	XRapidView.MarkupFileName = "D:\\test\\pid_test-2.mku";
+//	XRapidView.AppendMarkup();
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FilePrinted(strFilePath)>
+<!--
+	//alert(strFilePath+" printed");
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FileSave>
+<!--
+	XRapidView.SaveMarkup();
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FileSaved(strFilePath)>
+<!--
+	alert("[event : FileSaved]\nstrFilePath=" + strFilePath);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=FileClosed>
+<!--
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=TextSelected(strText,strLayerName,nPos)>
+<!--
+	alert("[event : TextSelected]\ntext=" + strText + ", layername=" + strLayerName + ", pos=" + nPos);
+/*
+	var objID = XRapidView.GetTextObjectID(strLayerName, nPos);
+
+	var minX, minY, maxX, maxY;
+	minX = XRapidView.GetTextExtMinX(objID);
+	minY = XRapidView.GetTextExtMinY(objID);
+	maxX = XRapidView.GetTextExtMaxX(objID);
+	maxY = XRapidView.GetTextExtMaxY(objID);
+
+	alert("[Text Extend]\nobjID=" + objID + ", minX=" + minX + ", minY=" + minY + ", maxX=" + maxX + ", maxY=" + maxY);
+*/
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=PolyLineArea(strText,nArea)>
+<!--
+	alert("[event : PolyLineArea]\ntext=" + strText + ", Area=" + nArea);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=LineLength(strText,nLength)>
+<!--
+	alert("[event : LineLength]\ntext=" + strText + ", Length=" + nLength);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=LineAngle(strText,nAngle)>
+<!--
+	alert("[event : LineAngle]\ntext=" + strText + ", Angle=" + nAngle);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=SaveScreenShot(strSaveFilePath)>
+<!--
+	alert("[event : SaveScreenShot]\nstrSaveFilePath=" + strSaveFilePath);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=BlockSelected(strBlockObjectId,strBlockTag,strBlockValue,nPos)>
+<!--
+//	alert("[event : BlockSelected]\nblockobjectid=" + strBlockObjectId + ", blocktag=" + strBlockTag + ", blockvalue=" + strBlockValue + ", pos=" + nPos);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=EntitySelected2(strObjId,strClassName,strLayer,nColorIdx,nLnWeight)>
+<!--
+	alert("[event : EntitySelected2]\nObjId=" + strObjId + "\nclass=" + strClassName + "\nlayer=" + strLayer + "\ncolorIdx=" + nColorIdx + "\nlnWeight=" + nLnWeight);
+
+	//색상,선가중치 바꾸기
+	//XRapidView.SetEntityColorIdx( strObjId, 8 );
+	//XRapidView.SetEntityLnWeight( strObjId, 40 );
+	//XRapidView.RedrawEntity( strObjId + ";" + strObjId + ";" + strObjId + ";" + strObjId + ";" + strObjId );
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=TextSelected2(strObjId,strText,strLayer,nColorIdx,nLnWeight)>
+<!--
+	alert("[event : TextSelected2]\nObjId=" + strObjId + "\ntext=" + strText + "\nlayer=" + strLayer + "\ncolorIdx=" + nColorIdx + "\nlnWeight=" + nLnWeight);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=BlockSelected2(strObjId,strName,strTags,strTagValues,strLayer,nColorIdx,nLnWeight)>
+<!--
+	//tags와 tagvalues는 2개이상일경우 구분문자로 '\n'을 사용한다
+	alert("[event : BlockSelected2]\nObjId=" + strObjId + "\nname=" + strName + "\ntags=" + strTags + "\ntagValues=" + strTagValues + "\nlayer=" + strLayer + "\ncolorIdx=" + nColorIdx + "\nlnWeight=" + nLnWeight);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=MultiPickerSelected(nLeft,nTop,nRight,nBottom)>
+<!--
+	alert("left=" + nLeft + ", top=" + nTop + ", right=" + nRight + ", bottom=" + nBottom);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=OnKeyDown(nKeyCode,nRepCnt,nFlags)>
+<!--
+//	alert("OnKeyDown : nKeyCode=" + nKeyCode + ", nRepCnt=" + nRepCnt + ", nFlags=" + nFlags);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=OnKeyUp(nKeyCode,nRepCnt,nFlags)>
+<!--
+//	alert("OnKeyUp : nKeyCode=" + nKeyCode + ", nRepCnt=" + nRepCnt + ", nFlags=" + nFlags);
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=javascript FOR=XRapidView EVENT=ShowAboutBox>
+<!--
+	XRapidView.AboutBox();
+
+//	alert("XRapidView Control 32/64bit, Version " + XRapidView.GetXRapidViewVersion());
+//-->
+</SCRIPT>
+</HEAD>
+
+<BODY topmargin=0 leftmargin=0 onload="JavaScript:document.XRapidView.focus();">
+<TABLE style="WIDTH: 100%; HEIGHT: 100%" cellSpacing=0 cellPadding=0 border=0 bkcolor=#c0c0c0>
+	<TR>
+		<TD colspan=5>
+			<SCRIPT src="XRapidView32.js"></SCRIPT>
+		</TD>
+	</TR>
+</TABLE>
+</BODY>
+</HTML>
