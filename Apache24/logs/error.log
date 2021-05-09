@@ -1,0 +1,30 @@
+[Sun May 09 22:41:04.707199 2021] [mpm_winnt:notice] [pid 13596:tid 644] AH00455: Apache/2.4.47 (Win64) configured -- resuming normal operations
+[Sun May 09 22:41:04.709200 2021] [mpm_winnt:notice] [pid 13596:tid 644] AH00456: Apache Lounge VS16 Server built: Apr 24 2021 11:08:47
+[Sun May 09 22:41:04.709200 2021] [core:notice] [pid 13596:tid 644] AH00094: Command line: 'C:\\Apache24\\bin\\httpd.exe -d C:/Apache24'
+[Sun May 09 22:41:04.711200 2021] [mpm_winnt:notice] [pid 13596:tid 644] AH00418: Parent: Created child process 11672
+[Sun May 09 22:41:06.718859 2021] [mpm_winnt:notice] [pid 11672:tid 576] AH00354: Child: Starting 64 worker threads.
+[Sun May 09 22:44:08.310238 2021] [mpm_winnt:notice] [pid 13596:tid 644] AH00424: Parent: Received restart signal -- Restarting the server.
+[Sun May 09 22:44:08.332243 2021] [mpm_winnt:notice] [pid 13596:tid 644] AH00455: Apache/2.4.47 (Win64) configured -- resuming normal operations
+[Sun May 09 22:44:08.332243 2021] [mpm_winnt:notice] [pid 13596:tid 644] AH00456: Apache Lounge VS16 Server built: Apr 24 2021 11:08:47
+[Sun May 09 22:44:08.332243 2021] [core:notice] [pid 13596:tid 644] AH00094: Command line: 'C:\\Apache24\\bin\\httpd.exe -d C:/Apache24'
+[Sun May 09 22:44:08.334243 2021] [mpm_winnt:notice] [pid 13596:tid 644] AH00418: Parent: Created child process 9128
+[Sun May 09 22:44:10.297686 2021] [mpm_winnt:notice] [pid 9128:tid 696] AH00354: Child: Starting 64 worker threads.
+[Sun May 09 22:44:10.311690 2021] [mpm_winnt:notice] [pid 11672:tid 576] AH00364: Child: All worker threads have exited.
+[Sun May 09 22:48:59.312074 2021] [mpm_winnt:notice] [pid 13596:tid 644] AH00424: Parent: Received restart signal -- Restarting the server.
+httpd.exe: Syntax error on line 539 of C:/Apache24/conf/httpd.conf: Can't locate API module structure `php7_module' in file C:/php/php8apache2_4.dll: No error
+[Sun May 09 22:49:01.313525 2021] [mpm_winnt:notice] [pid 9128:tid 696] AH00364: Child: All worker threads have exited.
+[Sun May 09 22:50:12.408127 2021] [core:warn] [pid 7088:tid 736] AH00098: pid file C:/Apache24/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sun May 09 22:50:12.412128 2021] [mpm_winnt:notice] [pid 7088:tid 736] AH00455: Apache/2.4.47 (Win64) configured -- resuming normal operations
+[Sun May 09 22:50:12.412128 2021] [mpm_winnt:notice] [pid 7088:tid 736] AH00456: Apache Lounge VS16 Server built: Apr 24 2021 11:08:47
+[Sun May 09 22:50:12.412128 2021] [core:notice] [pid 7088:tid 736] AH00094: Command line: 'C:\\Apache24\\bin\\httpd.exe -d C:/Apache24'
+[Sun May 09 22:50:12.415129 2021] [mpm_winnt:notice] [pid 7088:tid 736] AH00418: Parent: Created child process 14264
+[Sun May 09 22:50:14.260546 2021] [mpm_winnt:notice] [pid 14264:tid 704] AH00354: Child: Starting 64 worker threads.
+[Sun May 09 22:50:28.797825 2021] [mpm_winnt:notice] [pid 7088:tid 736] AH00424: Parent: Received restart signal -- Restarting the server.
+httpd.exe: Syntax error on line 539 of C:/Apache24/conf/httpd.conf: Can't locate API module structure `php8_module' in file C:/php/php8apache2_4.dll: No error
+[Sun May 09 22:50:30.799276 2021] [mpm_winnt:notice] [pid 14264:tid 704] AH00364: Child: All worker threads have exited.
+[Sun May 09 22:50:50.688690 2021] [core:warn] [pid 11972:tid 688] AH00098: pid file C:/Apache24/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sun May 09 22:50:50.724698 2021] [mpm_winnt:notice] [pid 11972:tid 688] AH00455: Apache/2.4.47 (Win64) PHP/8.0.6 configured -- resuming normal operations
+[Sun May 09 22:50:50.724698 2021] [mpm_winnt:notice] [pid 11972:tid 688] AH00456: Apache Lounge VS16 Server built: Apr 24 2021 11:08:47
+[Sun May 09 22:50:50.724698 2021] [core:notice] [pid 11972:tid 688] AH00094: Command line: 'C:\\Apache24\\bin\\httpd.exe -d C:/Apache24'
+[Sun May 09 22:50:50.727699 2021] [mpm_winnt:notice] [pid 11972:tid 688] AH00418: Parent: Created child process 1944
+[Sun May 09 22:50:52.623127 2021] [mpm_winnt:notice] [pid 1944:tid 744] AH00354: Child: Starting 64 worker threads.
