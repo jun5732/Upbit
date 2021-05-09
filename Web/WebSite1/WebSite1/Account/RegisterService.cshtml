@@ -1,0 +1,113 @@
+﻿@* 번들을 사용하는 경우 이 섹션 제거 *@
+@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@{
+    Layout = "~/_SiteLayout.cshtml";
+    Page.Title = "등록";
+
+    string email = "";
+    string loginData = "";
+    string providerDisplayName = "";
+
+    var returnUrl = Request.QueryString["ReturnUrl"];
+    if (returnUrl.IsEmpty()) {
+        // 일부 외부 로그인 공급자의 경우 항상 반환 URL 값이 필요합니다.
+        returnUrl = Href("~/");
+    }
+
+    // 확인 설정
+    Validation.RequireField("email", "사용자 이름은 필수 필드입니다.");
+
+    if (IsPost && Request.Form["newAccount"].AsBool()) {
+        // 새 계정 등록 양식 처리
+        AntiForgery.Validate();
+        email = Request.Form["email"];
+        loginData = Request.Form["loginData"];
+
+        string provider = "";
+        string providerUserId = "";
+        if (WebSecurity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(loginData, out provider, out providerUserId)) {
+            Response.Redirect("~/Account/Manage");
+            return;
+        }
+
+        providerDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
+        if (Validation.IsValid()) {
+            // 새 사용자를 데이터베이스에 삽입
+            var db = Database.Open("StarterSite");
+
+            // 사용자가 이미 존재하는지 확인합니다.
+            var user = db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
+            if (user == null) {
+                // 전자 메일을 프로필 테이블에 삽입합니다.
+                db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
+                OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, email);
+
+                OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
+
+                Context.RedirectLocal(returnUrl);
+                return;
+            } else {
+                ModelState.AddError("email", "사용자 이름이 이미 존재합니다. 다른 사용자 이름을 입력하십시오.");
+            }
+        }
+    } else {
+        // 외부 로그인 공급자의 콜백 처리
+
+        var result = OAuthWebSecurity.VerifyAuthentication(Href("~/Account/RegisterService", new { returnUrl }));
+        if (result.IsSuccessful) {
+            bool registered = OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false);
+            if (registered) {
+                Context.RedirectLocal(returnUrl);
+                return;
+            }
+
+            if (WebSecurity.IsAuthenticated) {
+                // 현재 사용자가 로그인한 경우 경우 새 계정 추가
+                OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, WebSecurity.CurrentUserName);
+                Context.RedirectLocal(returnUrl);
+                return;
+            } else {
+                // 새 사용자인 경우 기본 사용자 이름을 외부 로그인 공급자에서 가져온 값으로 설정
+                email = result.UserName;
+                loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
+                providerDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
+            }
+        } else {
+            Response.Redirect("~/Account/ExternalLoginFailure");
+            return;
+        }
+    }
+}
+<hgroup class="title">
+    <h1>@Page.Title.</h1>
+    <h2>@providerDisplayName 계정과 연결합니다.</h2>
+</hgroup>
+
+<form method="post">
+    @AntiForgery.GetHtml()
+    <input type="hidden" name="loginData" value="@loginData" />
+    @* 하나 이상의 확인 오류가 존재하는 경우 사용자에게 알립니다. *@
+    @Html.ValidationSummary(excludeFieldErrors: true)
+
+    <fieldset>
+        <legend>등록 양식</legend>
+        <p>
+            다음 공급자에서 인증되었음: <strong>@providerDisplayName</strong>. 아래에
+            이 사이트의 사용자 이름을 입력하고 확인 단추를 클릭하여 로그인을
+            완료하십시오.
+        </p>
+        <ol>
+            <li class="email">
+                <label for="email" @if (!ModelState.IsValidField("email")) {<text>class="error-label"</text>}>전자 메일 주소</label>
+                <input type="text" id="email" name="email" value="@email" @Validation.For("email") />
+                @* 모든 전자 메일 확인 오류를 페이지에 기록합니다. *@
+                @Html.ValidationMessage("email")
+            </li>
+        </ol>
+        <button type="submit" name="newAccount" value="true">등록</button>
+    </fieldset>
+</form>

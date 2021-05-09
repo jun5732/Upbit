@@ -1,0 +1,104 @@
+﻿@* 번들을 사용하는 경우 이 섹션 제거 *@
+@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@{
+    Layout = "~/_SiteLayout.cshtml";
+    Page.Title = "로그인";
+
+    // 일반 페이지 변수 초기화
+    var email = "";
+    var password = "";
+    var rememberMe = false;
+
+    var returnUrl = Request.QueryString["ReturnUrl"];
+    if (returnUrl.IsEmpty()) {
+        // 일부 외부 로그인 공급자의 경우 항상 반환 URL 값이 필요합니다.
+        returnUrl = Href("~/");
+    }
+
+    // Setup validation
+    Validation.RequireField("email", "전자 메일 주소를 지정해야 합니다.");
+    Validation.RequireField("password", "암호를 지정해야 합니다.");
+    Validation.Add("password",
+        Validator.StringLength(
+            maxLength: Int32.MaxValue,
+            minLength: 6,
+            errorMessage: "암호는 6자 이상이어야 합니다."));
+
+    // POST 요청인 경우 데이터를 확인한 후 처리합니다.
+    if (IsPost) {
+        AntiForgery.Validate();
+        // 외부 로그인 요청입니까?
+        string provider = Request.Form["provider"];
+        if (!provider.IsEmpty()) {
+            OAuthWebSecurity.RequestAuthentication(provider, Href("~/Account/RegisterService", new { returnUrl }));
+            return;
+        } else if (Validation.IsValid()) {
+            email = Request.Form["email"];
+            password = Request.Form["password"];
+            rememberMe = Request.Form["rememberMe"].AsBool();
+
+            if (WebSecurity.UserExists(email) && WebSecurity.GetPasswordFailuresSinceLastSuccess(email) > 4 && WebSecurity.GetLastPasswordFailureDate(email).AddSeconds(60) > DateTime.UtcNow) {
+                Response.Redirect("~/Account/AccountLockedOut");
+                return;
+            }
+
+            // 제공된 자격 증명을 사용하여 로그인하려고 합니다.
+            if (WebSecurity.Login(email, password, rememberMe)) {
+                Context.RedirectLocal(returnUrl);
+                return;
+            } else {
+                ModelState.AddFormError("제공된 사용자 이름이나 암호가 올바르지 않습니다.");
+            }
+        }
+    }
+}
+
+<hgroup class="title">
+    <h1>@Page.Title.</h1>
+</hgroup>
+
+<section id="loginForm">
+    <h2>로컬 계정을 사용하여 로그인하십시오.</h2>
+    <form method="post">
+        @AntiForgery.GetHtml()
+        @* 하나 이상의 확인 오류가 존재하는 경우 오류를 표시합니다. *@
+        @Html.ValidationSummary("로그인하지 못했습니다. 오류를 수정한 후 다시 시도하십시오.", excludeFieldErrors: true, htmlAttributes: null)
+
+        <fieldset>
+            <legend>계정으로 로그인하십시오.</legend>
+            <ol>
+                <li class="email">
+                    <label for="email" @if (!ModelState.IsValidField("email"))
+                                       {<text>class="error-label"</text>}>전자 메일 주소</label>
+                    <input type="text" id="email" name="email" value="@email" @Validation.For("email")/>
+                    @* 모든 사용자 이름 확인 오류를 페이지에 기록합니다. *@
+                    @Html.ValidationMessage("email")
+                </li>
+                <li class="password">
+                    <label for="password" @if (!ModelState.IsValidField("password")) {<text>class="error-label"</text>}>암호</label>
+                    <input type="password" id="password" name="password" @Validation.For("password")/>
+                    @* 모든 암호 확인 오류를 페이지에 기록합니다. *@
+                    @Html.ValidationMessage("password")
+                </li>
+                <li class="remember-me">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" value="true" checked="@rememberMe" />
+                    <label class="checkbox" for="rememberMe">사용자 이름 및 암호 저장</label>
+                </li>
+            </ol>
+            <input type="submit" value="로그인" />
+        </fieldset>
+    </form>
+    <p>
+        <a href="~/Account/Register">계정이 없는 경우</a>
+        <a href="~/Account/ForgotPassword">암호를 잊은 경우</a>
+    </p>
+</section>
+
+<section class="social" id="socialLoginForm">
+    <h2>다른 서비스를 사용하여 로그인 하십시오.</h2>
+    @RenderPage("~/Account/_ExternalLoginsList.cshtml")
+</section>
