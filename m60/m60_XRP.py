@@ -3,12 +3,18 @@ import pyupbit
 import datetime
 import logging
 
-tickername = "DOGE"
+tickername = "XRP"
 iPer = 0.5
-intervalMinute = 240
+intervalMinute = 60
 access = "vqjRzy8UlElasjqXHW7tDrkjXdGuxWAfxTjBx7iw"          # 본인 값으로 변경
 secret = "h9sLNV3XyVJa6pAsa8EdWlxfWiONy9o8cIc6Zdzk"          # 본인 값으로 변경
 iBuyPrice = 0
+
+def get_ma15(ticker):
+    """15일 이동 평균선 조회"""
+    df = pyupbit.get_ohlcv(ticker, interval="minute" + str(intervalMinute), count=15)
+    ma15 = df['close'].rolling(15).mean().iloc[-1]
+    return ma15
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
@@ -60,17 +66,19 @@ while True:
             BTT = 0
         
         current_price = get_current_price("KRW-" + tickername)
+        ma15 = get_ma15("KRW-" + tickername)
 
         if start_time < now < end_time - datetime.timedelta(seconds=5):
             
             target_price = get_target_price("KRW-" + tickername, iPer)
             
-            if target_price < current_price:
+            if target_price < current_price and ma15 < current_price:
                 if BTT <= 0:
+                    #AllIn = get_balance("KRW") *0.9995
                     logging.info("BUY +++++ -> " + str(current_price))
                     print("BUY +++++ -> " + str(current_price))
                     iBuyPrice = current_price
-                    upbit.buy_market_order("KRW-" + tickername, 10000)
+                    upbit.buy_market_order("KRW-" + tickername, 100000)
         else:            
             if BTT > 0:
                 logging.info("----- SEL -> " + str(current_price))
