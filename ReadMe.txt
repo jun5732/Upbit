@@ -26,21 +26,18 @@ ps ax | grep .py
 프로세스 종료(PID는 ps ax | grep .py를 했을때 확인 가능): 
 kill -9 PID
 
-access = "LYkGvTftjKrUBvJ65Y0xVxVd1QJ9gkx2fpPzlKxW"          # 본인 값으로 변경
-secret = "gMKxCJQsuvxjjBllBIXjkOzxt49A4BSA3Gvhd8XU"          # 본인 값으로 변경
-
 
 https://github.com/jun5732/coin.git
 
-회사 IP :
+노트북 IP :
 218.54.200.41
 
 server IP:
-18.217.108.246
+18.216.171.213
 집 IP:
 211.219.122.143
 
-211.219.122.143,18.217.108.246,211.219.122.143
+218.54.200.41,18.216.171.213,211.219.122.143
 
 엑셀 문자열 살제
 =SUBSTITUTE(I2,"KRW","")
@@ -50,8 +47,8 @@ git clone https://github.com/jun5732/coin.git
 218.54.200.41,18.217.108.246,211.219.122.143
 
 
-vqjRzy8UlElasjqXHW7tDrkjXdGuxWAfxTjBx7iw
-h9sLNV3XyVJa6pAsa8EdWlxfWiONy9o8cIc6Zdzk
+C0Az21yejT3prbheZAUdZMCUGi9Tr1R0OlSNgIp3
+ZRozlBWm55cYlLjSmf9eBzYjhpuxUWeXKPFNzf4Q
 
 
 ps ax | grep .py
