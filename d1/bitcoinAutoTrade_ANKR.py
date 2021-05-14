@@ -46,8 +46,10 @@ while True:
             target_price = get_target_price("KRW-ANKR", 0.5)
             current_price = get_current_price("KRW-ANKR")
             if target_price < current_price:
-                krw = get_balance("KRW")
-                if krw > 5000:
+                krw = get_balance("KRW-ANKR")
+                if krw is None:
+                    krw = 0
+                if krw <= 0:
                     upbit.buy_market_order("KRW-ANKR", 100000)
         else:
             btc = get_balance("BTC")

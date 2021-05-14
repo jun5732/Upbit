@@ -5,7 +5,7 @@ import logging
 
 tickername = "ANKR"
 iPer = 0.2
-intervalMinute = "day1"
+intervalMinute = "minute30"
 access = "C0Az21yejT3prbheZAUdZMCUGi9Tr1R0OlSNgIp3"          # 본인 값으로 변경
 secret = "ZRozlBWm55cYlLjSmf9eBzYjhpuxUWeXKPFNzf4Q"          # 본인 값으로 변경
 iBuyPrice = 0
@@ -68,7 +68,7 @@ while True:
         current_price = get_current_price("KRW-" + tickername)
         ma15 = get_ma15("KRW-" + tickername)
 
-        if start_time < now < end_time - datetime.timedelta(seconds=5):
+        if start_time < now < end_time - datetime.timedelta(seconds=10):
             
             target_price = get_target_price("KRW-" + tickername, iPer)
             
@@ -78,7 +78,7 @@ while True:
                     logging.info("BUY +++++ -> " + str(current_price))
                     print("BUY +++++ -> " + str(current_price))
                     iBuyPrice = current_price
-                    upbit.buy_market_order("KRW-" + tickername, 100000)
+                    upbit.buy_market_order("KRW-" + tickername, 50000)
         else:            
             if BTT > 0:
                 logging.info("----- SEL -> " + str(current_price))

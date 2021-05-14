@@ -53,7 +53,7 @@ ZRozlBWm55cYlLjSmf9eBzYjhpuxUWeXKPFNzf4Q
 
 ps ax | grep .py
 
-nohup python3 m60_DOGE.py > m60_DOGE.log &
+nohup python3 findtrade.py > findtrade.log &
 nohup python3 m60_GAS.py > m60_GAS.log &
 nohup python3 m60_GRS.py > m60_GRS.log &
 nohup python3 m60_MED.py > m60_MED.log &
