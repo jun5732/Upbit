@@ -19,7 +19,7 @@ nohup python3 RedUpYello.py > output.log &
 nohup python3 Buy3Sel65.py > output.log &
 
 nohup python3 m60_xrp.py > xrp.log &
-nohup python3 m60_btt.py > btt.log &
+nohup python3 Getuser.py.py > Getuser.log &
 
 실행되고 있는지 확인: 
 ps ax | grep .py
@@ -37,6 +37,7 @@ server IP:
 집 IP:
 211.219.122.143
 
+
 218.54.200.41,18.216.171.213,211.219.122.143
 
 엑셀 문자열 살제
@@ -46,9 +47,17 @@ git clone https://github.com/jun5732/coin.git
 
 218.54.200.41,18.217.108.246,211.219.122.143
 
-
+내꺼
 C0Az21yejT3prbheZAUdZMCUGi9Tr1R0OlSNgIp3
 ZRozlBWm55cYlLjSmf9eBzYjhpuxUWeXKPFNzf4Q
+가을이꺼
+O5U8TaOQyVxxzNhyZ0s2BvBoBgJtei5e5dFk6q3f
+9OsDlrrqxMUdr5J4UhVHCN2JJdUDaO7SHnRaJxWO
+
+nohup python3 gaeulpersel.py > gaeulpersel.log &
+
+todo:
+기능 중단, 전체 기능 중단.
 
 
 ps ax | grep .py
@@ -70,6 +79,10 @@ nohup python3 m60_LSK.py > m60_LSK.log &
 nohup python3 m60_STORJ.py > m60_STORJ.log &
 
 
-nohup python3 perSel.py > perSel.log &
+nohup python3 SelPer5.py > SelPer5.log &
 
 ps ax | grep .py
+
+
+insert into user(id,pw,access,secret) values('gaeul123','1234','O5U8TaOQyVxxzNhyZ0s2BvBoBgJtei5e5dFk6q3f','9OsDlrrqxMUdr5J4UhVHCN2JJdUDaO7SHnRaJxWO')
+update tacker set selper1 = 1.2 , selper2 = 1.5,selper3 = 1.8

@@ -2,6 +2,7 @@ import pymysql
 import os
 import pyupbit
 import time
+import logging
 
 id = "gaeul123"
 pw = "1234"
@@ -23,12 +24,13 @@ def DB_InserTacker():
     sql = """SELECT * FROM tacker WHERE id = %s"""
     cursor.execute(sql, (id))
     result = cursor.fetchall()
-
+    logging.info(sql)
     if len(result) < 1:
         balances = pyupbit.get_tickers("KRW")
         for b in balances:
             icount = icount + 1
             sql = """insert into tacker(id ,currency ,avgprice ,selper1,selper1_1 ,selper2,selper2_1 ,selper3,selper3_1) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+            logging.info(sql)
             cursor.execute(sql, (id ,b ,0,1,20,2,30,3,50))
             print(cursor._executed)
 
@@ -36,11 +38,13 @@ def DB_InserTacker():
 def Login():
     myKey = []
     sql = "SELECT * FROM user where id = '" + id + "' and pw = '" + pw + "';"
+    logging.info(sql)
     cursor.execute(sql)
     result = cursor.fetchall()
     if result is not None:
         if len(result) > 0:
             myKey = [result[0]['access'] ,result[0]['secret']]
+            logging.info("Login OK")
     return myKey
 
 
@@ -72,16 +76,19 @@ def SetPerOrder():
         # DB 에 있는 평균가 조회
         sql = """SELECT * FROM tacker WHERE id = %s AND currency = %s; """
         cursor.execute(sql, (id ,tabkerName))
+        logging.info(sql)
         result = cursor.fetchall()
 
         # DB 평균가와 Upbit 평균가가 다를때
         if float(result[0]['avgprice']) != float(b['avg_buy_price']) and float(result[0]['selper1']) > 0:
             print(tabkerName)  
+            logging.info("--> " + tabkerName)
             # 기존 판매 예약 취소
             oders = upbit.get_order(tabkerName)
             for oder in oders:
                 if oder['side'] == 'ask':
                     upbit.cancel_order(oder['uuid'])
+                    logging.info("cancel_order --> " + tabkerName)
                     time.sleep(1)
 
             #   평균 매수가
@@ -95,17 +102,18 @@ def SetPerOrder():
             p1_1 = (fCount * 0.01 * float(result[0]['selper1_1']))
             p2_1 = (fCount * 0.01 * float(result[0]['selper2_1']))
             p3_1 = float(fCount - p1_1 - p2_1)
-            print(str(p1) + " -> " + str(p1_1))
-            print(str(p2) + " -> " + str(p2_1))
-            print(str(p3) + " -> " + str(p3_1))
+            
             # 현제 평균가 다시 등록
             rt = upbit.sell_limit_order(tabkerName, p1, p1_1 ,True)
+            logging.info("sell_limit_order --> " + tabkerName + " : " + str(p1) + " -> " + str(p1_1))
             time.sleep(1)
             #print(rt)
             rt = upbit.sell_limit_order(tabkerName, p2, p2_1,True)
+            logging.info("sell_limit_order --> " + tabkerName + " : " + str(p2) + " -> " + str(p2_1))
             time.sleep(1)
             #print(rt)
             rt = upbit.sell_limit_order(tabkerName, p3, p3_1,True)
+            logging.info("sell_limit_order --> " + tabkerName + " : " + str(p3) + " -> " + str(p3_1))
             time.sleep(1)
             #print(rt)
             
@@ -115,24 +123,13 @@ def SetPerOrder():
             time.sleep(1)
         time.sleep(1)
 
-
-
-# CREATE TABLE tacker (
-# id VARCHAR(100) NOT NULL,
-# currency VARCHAR(100) NOT NULL,
-# avgprice DECIMAL(9,2),
-# selper1 DECIMAL(9,2),
-# selper1_1 DECIMAL(9,2),
-# selper2 DECIMAL(9,2),
-# selper2_1 DECIMAL(9,2),
-# selper3 DECIMAL(9,2),
-# selper3_1 DECIMAL(9,2),
-# PRIMARY KEY(id ,currency)
-# ) ENGINE=MYISAM CHARSET=utf8;
-
-
 myKey = Login()
 upbit = pyupbit.Upbit(myKey[0], myKey[1])
+
+logging.info("START")
+strLog =  "gaeulperselPro.log"
+logging.basicConfig(filename=strLog, level=logging.INFO)
+logging.info("START")
 
 while True :
     SetPerOrder()

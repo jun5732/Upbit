@@ -3,7 +3,7 @@ import datetime
 import pyupbit
 import threading
 
-intervalTime = "minute5"
+intervalTime = "minute30"
 
 def get_start_time(ticker):
     """시작 시간 조회"""
@@ -26,24 +26,47 @@ def get_balance(ticker):
                 return 0
 
 
-class Worker(threading.Thread):
-    def __init__(self, name):
-        super().__init__()
-        self.name = name            # thread 이름 지정
+def TradeRun(ticker):
+    try:
+        start_time = get_start_time(ticker)
+        now = datetime.datetime.now()
+        end_time = start_time + datetime.timedelta(minutes=5)
+        
+        nowPrice = get_current_price(ticker)
 
-    def run(self):
-        print("sub thread start ", threading.currentThread().getName())
-        time.sleep(3)
-        print("sub thread end ", threading.currentThread().getName())
+        BTT = get_balance(ticker[4:])
+        if BTT is None:
+            BTT = 0
+            
+        if start_time < now < end_time - datetime.timedelta(seconds=10):
+            time.sleep(1)
+            df = pyupbit.get_ohlcv(ticker, interval=intervalTime,count=10)
 
+            ma15 = df['volume'].rolling(10).mean().iloc[-1]
+            nw = df['volume'][-1]
 
-print("main thread start")
-for i in range(5):
-    name = "thread {}".format(i)
-    t = Worker(name)                # sub thread 생성
-    t.start()                       # sub thread의 run 메서드를 호출
+            if nw > ma15 and df['close'][-1] - df['open'][-1] > 1:
+                print(ticker + " ->  BUY :" + str(get_current_price(ticker)))
+                
+                if BTT <= 0:
+                    if iCount < 3:
+                        print("BUY-----> " + ticker + " : " + str(iCount))
+                        #upbit.buy_market_order(ticker, 100000)
+                        iCount = iCount + 1
+                    #upbit.buy_limit_order(ticker, 10000, volume)
+                    #upbit.sell_market_order(ticker, nowPrice)
+        else:            
+            if BTT > 0:
+                print("----->SEL " + ticker + " : " + str(iCount))
+                #upbit.sell_limit_order(ticker, nowPrice, BTT ,True)
+                iCount = iCount - 1
+    except Exception as e:
+        print(e) 
+        time.sleep(1)     
 
-print("main thread end")
+def run(ticker):
+    while True:               
+        TradeRun(ticker)
 
 # 로그인
 access = "C0Az21yejT3prbheZAUdZMCUGi9Tr1R0OlSNgIp3"          # 본인 값으로 변경
@@ -52,44 +75,54 @@ upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 
 iCount = 0
-while True:
-    try:
-        tickers = pyupbit.get_tickers(fiat="KRW")
-        time.sleep(1)
-        for ticker in tickers:
-            start_time = get_start_time(ticker)
-            now = datetime.datetime.now()
-            end_time = start_time + datetime.timedelta(minutes=5)
+
+th1 = threading.Thread(target=run, args=("KRW-BTT"))
+th1.start()
+th1.join()
+
+# try:
+#     tickers = pyupbit.get_tickers(fiat="KRW")
+#     time.sleep(1)
+#     for ticker in tickers:
+#         th1 = threading.Thread(target=run, args=(ticker))
+#         th1.start()
+#         th1.join()
+        
+#         t = Worker(ticker)                # sub thread 생성
+#         t.start()                       # sub thread의 run 메서드를 호출
+
+
+        
+#         start_time = get_start_time(ticker)
+#         now = datetime.datetime.now()
+#         end_time = start_time + datetime.timedelta(minutes=5)
+        
+#         nowPrice = get_current_price(ticker)
+
+#         BTT = get_balance(ticker[4:])
+#         if BTT is None:
+#             BTT = 0
             
-            nowPrice = get_current_price(ticker)
+#         if start_time < now < end_time - datetime.timedelta(seconds=10):
+#             time.sleep(1)
+#             df = pyupbit.get_ohlcv(ticker, interval=intervalTime,count=10)
 
-            BTT = get_balance(ticker[4:])
-            if BTT is None:
-                BTT = 0
-                
-            if start_time < now < end_time - datetime.timedelta(seconds=10):
-                time.sleep(1)
-                df = pyupbit.get_ohlcv(ticker, interval=intervalTime)
+#             ma15 = df['volume'].rolling(10).mean().iloc[-1]
+#             nw = df['volume'][-1]
 
-                ma15 = df['volume'].rolling(200).mean().iloc[-1]
-                nw = df['volume'][-1]
-
-                if nw > ma15 and df['close'][-1] - df['open'][-1] > 1:
-                    print(ticker + " ->  BUY :" + str(get_current_price(ticker)))
-                    
-                    if BTT <= 0:
-                        if iCount < 3:
-                            upbit.buy_market_order(ticker, 100000)
-                            iCount = iCount + 1
-                        #upbit.buy_limit_order(ticker, 10000, volume)
-                        #upbit.sell_market_order(ticker, nowPrice)
-            else:            
-                if BTT > 0:
-                    upbit.sell_limit_order(ticker, nowPrice, BTT ,True)
-                    iCount = iCount - 1
-    except Exception as e:
-        print(e) 
-        time.sleep(1)
+#             if nw > ma15 and df['close'][-1] - df['open'][-1] > 1:
+#                 print(ticker + " ->  BUY :" + str(get_current_price(ticker)))                
+#                 if BTT <= 0:
+#                     if iCount < 3:
+#                         upbit.buy_market_order(ticker, 100000)
+#                     #upbit.buy_limit_order(ticker, 10000, volume)
+#                     #upbit.sell_market_order(ticker, nowPrice)
+#         else:            
+#             if BTT > 0:
+#                 upbit.sell_limit_order(ticker, nowPrice, BTT ,True)
+# except Exception as e:
+#     print(e) 
+#     time.sleep(1)
 
 
 
