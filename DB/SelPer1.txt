@@ -1,0 +1,14 @@
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:-------------------------------------------------------------------------------------------
+INFO:root:({'uuid': '632b9eda-db6d-4449-a7d0-ef14e22a3b1f', 'side': 'ask', 'ord_type': 'limit', 'price': '13.2', 'state': 'wait', 'market': 'KRW-TT', 'created_at': '2021-05-23T23:44:35+09:00', 'volume': '2307.69230769', 'remaining_volume': '2307.69230769', 'reserved_fee': '0.0', 'remaining_fee': '0.0', 'paid_fee': '0.0', 'locked': '2307.69230769', 'executed_volume': '0.0', 'trades_count': 0}, {'group': 'order', 'min': 198, 'sec': 7})
+INFO:root:-------------------------------------------------------------------------------------------
+INFO:root:({'error': {'message': '최소주문금액 이상으로 주문해주세요', 'name': 'under_min_total_ask'}}, {'group': 'order', 'min': 198, 'sec': 7})
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:-------------------------------------------------------------------------------------------
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start

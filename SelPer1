@@ -1,0 +1,7 @@
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+DEBUG:root:my DEBUG log
+INFO:root:my INFO log
+WARNING:root:my WARNING log
+ERROR:root:my ERROR log
+CRITICAL:root:my CRITICAL log

@@ -62,7 +62,8 @@ todo:
 
 ps ax | grep .py
 
-nohup python3 findtrade.py > findtrade.log &
+nohup python3 CallTest18.py > CallTest18.log &
+
 nohup python3 m60_GAS.py > m60_GAS.log &
 nohup python3 m60_GRS.py > m60_GRS.log &
 nohup python3 m60_MED.py > m60_MED.log &
@@ -79,9 +80,15 @@ nohup python3 m60_LSK.py > m60_LSK.log &
 nohup python3 m60_STORJ.py > m60_STORJ.log &
 
 
-nohup python3 SelPer5.py > SelPer5.log &
+nohup python3 gaeulpersel.py > gaeulpersel.log &
+nohup python3 SelPer1.py > SelPer1.log &
+nohup python3 l5_dmu5.py > l5_dmu5.log &
 
 ps ax | grep .py
+
+nohup python3 CallTest.py > CallTest.log &
+nohup python3 CallTest.py > CallTest.log &
+
 
 
 insert into user(id,pw,access,secret) values('gaeul123','1234','O5U8TaOQyVxxzNhyZ0s2BvBoBgJtei5e5dFk6q3f','9OsDlrrqxMUdr5J4UhVHCN2JJdUDaO7SHnRaJxWO')

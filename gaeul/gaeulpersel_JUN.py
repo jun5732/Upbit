@@ -3,6 +3,7 @@ import os
 import pyupbit
 import time
 import logging
+import pandas as pd
 
 id = "gaeul123"
 pw = "1234"
@@ -130,7 +131,22 @@ logging.info("START")
 strLog =  "gaeulperselPro.log"
 logging.basicConfig(filename=strLog, level=logging.INFO)
 logging.info("START")
+print(upbit.get_balance("KRW"))
+vas = []
+balances = upbit.get_balances()
+for b in balances:
+    if b['currency'] == "KRW":
+        print(b)
+        continue
+    df = pyupbit.get_ohlcv("KRW-" + b['currency'], count=1)
+    
+    d1 = round(float(b['locked']) + float(b['balance']) ,2)     
+    if d1 < 1:
+        continue
+    d2 = round(float(df['close'][0]) - float(b['avg_buy_price']) ,2)
+    iGap = float(d1) * float(d2)
+    va = ({'ticker':b['currency'],'volume':round(iGap,2)})
+    vas.append(va)
 
-while True :
-    SetPerOrder()
-    time.sleep(1)
+data = pd.DataFrame(vas)
+print(data)

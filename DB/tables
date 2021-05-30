@@ -1,0 +1,16 @@
+CREATE TABLE tacker1(
+	id        varchar(200) NOT NULL,
+	currency  varchar(200) NOT NULL,
+	avgprice  decimal(18, 7) NULL,
+	selper1   decimal(18, 7) NULL,
+	selper1_1 decimal(18, 7) NULL,
+	selper2   decimal(18, 7) NULL,
+	selper2_1 decimal(18, 7) NULL,
+	selper3   decimal(18, 7) NULL,
+	selper3_1 decimal(18, 7) NULL,
+	selper4   decimal(18, 7) NULL,
+	selper4_1 decimal(18, 7) NULL,
+	selper5   decimal(18, 7) NULL,
+	selper5_1 decimal(18, 7) NULL,0
+PRIMARY KEY(id,currency)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

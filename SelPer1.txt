@@ -1,0 +1,9 @@
+DEBUG:root:my DEBUG log
+INFO:root:my INFO log
+WARNING:root:my WARNING log
+ERROR:root:my ERROR log
+CRITICAL:root:my CRITICAL log
+INFO:root:my INFO log
+WARNING:root:my WARNING log
+ERROR:root:my ERROR log
+CRITICAL:root:my CRITICAL log

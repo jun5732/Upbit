@@ -1,0 +1,20 @@
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
+INFO:root:--------------------------------------
+INFO:root:SelPer1 autotrade start
